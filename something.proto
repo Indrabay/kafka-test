@@ -1,0 +1,44 @@
+package something;
+
+import "google/protobuf/timestamp.proto";
+syntax = "proto3";
+
+// UpdateProductPricingJob represent message for UpdateProductPricing async job
+message UpdateProductPricingJob {
+    AsyncMetadata meta = 1; // metadata of UpdateProductPricing async job
+    ProductPricing payload = 2; // payload of UpdateProductPricing async job
+}
+
+// ProductPricing represents product pricing at allofresh
+message ProductPricing {
+  string id = 1; // id of product pricing
+  string code = 2; // code of price unique, ex: PRC-0POLKGjn
+  double normal_purchase_price = 3; // normal purchase price, ex: 19700
+  double normal_selling_price = 4; // normal selling price, ex: 19700
+  double promo_purchase_price = 5; // promo purchase price, ex: 19700
+  double promo_selling_price = 6; // promo selling prince, ex: 19700
+  string product_id = 7; // product_id = id form product table, ex: 535964671543346226
+  string store_code = 8; // code of store, ex: 10043
+  string company_code = 9; // code of company, ex: TRTLMRT001
+  bool deleted = 10; // price is deleted or not, 1 = true, 0 = false
+  bool is_active = 11; // price is active or not, 1 = true, 0 = false
+  string created_by = 12; // creator of the product pricing, ex: udl.engine@transmart.co.id
+  string modified_by = 13; // modifier of the product pricing, ex: udl.engine@transmart.co.id
+  google.protobuf.Timestamp created_at = 14; // time the product created, ex: 2023-01-22 06:50:31
+  google.protobuf.Timestamp modified_at = 15; // time the product modified, ex: 2023-01-22 06:50:31
+  bool no_overidden = 16; // marker is overwritten or not, value when create is 1
+  string item_code = 17; // this stand for sku need to add 001 for PIM to use
+  string item_name = 18; // name for the sku
+  string supplier_code = 19; // supplier code
+  string supplier_name = 20; // supplier name
+}
+
+message AsyncMetadata {
+  string request_id = 1; // Request id from client that trigger published message
+  string event_id = 2; // UUID v4 unique id of event for idempotency checking
+  string client_id = 3; // Client id that trigger published message refer to oauth2 client_id
+  string actor_id = 4; // Current user id
+  string source_ip = 5; // Client ip address
+  string service_name = 6; // microservice name/publisher of message
+  google.protobuf.Timestamp created_at = 7; // time this message created
+}
